@@ -1,10 +1,12 @@
 import scrapy
 
+from pep_parse.items import PepParseItem
+
 
 class PepSpider(scrapy.Spider):
     name = 'pep'
     allowed_domains = ['peps.python.org']
-    start_urls = ['http://peps.python.org/']
+    start_urls = ['https://peps.python.org/']
 
     def parse(self, response):
         numeric_table = response.css(
@@ -14,10 +16,10 @@ class PepSpider(scrapy.Spider):
             pep_link = pep.css('td a::attr(href)').get()
             yield response.follow(
                 pep_link,
-                callback=self.parse_pep_status
+                callback=self.parse_pep
             )
 
-    def parse_pep_status(self, response):
+    def parse_pep(self, response):
         title = response.css(
             'section[id="pep-content"] h1::text'
         ).get().split(' – ')
@@ -26,4 +28,4 @@ class PepSpider(scrapy.Spider):
             'name': title[1],
             'status': response.css('dd abbr::text').get(),
         }
-        yield data
+        yield PepParseItem(data)
