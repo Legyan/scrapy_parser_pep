@@ -6,6 +6,10 @@ NEWSPIDER_MODULE = 'pep_parse.spiders'
 
 ROBOTSTXT_OBEY = True
 
+ALLOWED_DOMAINS = ['peps.python.org']
+
+START_URLS = ['https://peps.python.org/']
+
 FEEDS = {
     'results/pep_%(time)s.csv': {
         'format': 'csv',
