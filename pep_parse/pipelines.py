@@ -25,7 +25,7 @@ class PepParsePipeline:
                 results_writer.writerows(
                     (
                         ('Статус', 'Количество'),
-                        *self.statuses.items(),
+                        *sorted(self.statuses.items()),
                         ('Total', sum(self.statuses.values()))
                     )
                 )
